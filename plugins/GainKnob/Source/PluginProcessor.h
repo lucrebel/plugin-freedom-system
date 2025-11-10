@@ -1,5 +1,5 @@
 #pragma once
-#include <juce_audio_processors/juce_audio_processors.h>
+#include <JuceHeader.h>
 
 class GainKnobAudioProcessor : public juce::AudioProcessor
 {
@@ -29,6 +29,11 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+    // APVTS for parameter management
+    juce::AudioProcessorValueTreeState apvts;
+
 private:
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GainKnobAudioProcessor)
 };
