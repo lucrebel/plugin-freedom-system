@@ -842,317 +842,275 @@ Wait for user response. Handle:
 
 ---
 
-## Stage 2: Foundation
+## Stage 2: Foundation (STUB - Phase 3)
 
 **Goal:** Create plugin structure that compiles
 
-**Duration:** 5 minutes
+**Duration:** 5 minutes (when implemented in Phase 3)
 
-**NOTE:** Stage 2 requires foundation-agent (Phase 3). Creating placeholder.
+**NOTE:** Stage 2 is a STUB in Phase 2. foundation-agent will be implemented in Phase 3.
 
-**Current Implementation (Manual):**
+**Current Implementation:**
 
-Since foundation-agent doesn't exist yet, provide manual instructions:
+Display stub message in formatted box:
 
 ```
-Stage 2 requires the foundation-agent subagent (Phase 3).
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stage 2: Foundation (Build System Setup)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-For now, I'll create a minimal foundation manually:
+TODO (Phase 3): Dispatch foundation-agent subagent
 
-1. Create plugins/[PluginName]/CMakeLists.txt
-2. Create plugins/[PluginName]/Source/PluginProcessor.h
-3. Create plugins/[PluginName]/Source/PluginProcessor.cpp
-4. Create plugins/[PluginName]/Source/PluginEditor.h
-5. Create plugins/[PluginName]/Source/PluginEditor.cpp
+Expected implementation:
+- Generate CMakeLists.txt with JUCE 8 configuration
+- Create empty PluginProcessor.h/cpp
+- Create empty PluginEditor.h/cpp
+- Verify compilation with --no-install flag
 
-These will be minimal stubs that compile but don't do anything yet.
+For now, marking stage as stub and continuing...
 ```
 
-Create minimal files manually following JUCE patterns.
-
-**Git commit:**
-
-```bash
-git add plugins/[PluginName]/
-# Stage but don't commit
-```
-
-**Update .continue-here.md:**
+**Update handoff file:**
 
 ```yaml
 stage: 2
+status: in_progress
 ```
+
+Add to "Completed So Far":
+- **Stage 2 (stub):** Foundation stub executed
+
+Add to "Next Steps":
+- Complete Phase 3 to implement foundation-agent
+- foundation-agent will create build system and empty plugin files
 
 **Update PLUGINS.md:**
 
-```markdown
-**Status:** 🚧 Stage 2
-```
+Update status: `🚧 Stage 2 (stub)`
+
+**Do NOT create git commit** (stub stages are not committed)
 
 **Decision menu:**
 
 ```
-✓ Stage 2 complete: foundation created (manual)
-
-Note: Stage 2 will use foundation-agent in Phase 3 for automated setup.
+✓ Stage 2 stub executed (Phase 3 will implement)
 
 What's next?
-1. Continue to Stage 3 (recommended)
-2. Review foundation code
+1. Continue to Stage 3 (stub) (recommended)
+2. Review handoff file
+3. Skip to Stage 6 (test stub workflow)
+4. Pause here
+5. Other
+
+Choose (1-5): _
+```
+
+---
+
+## Stage 3: Shell (STUB - Phase 3)
+
+**Goal:** Plugin loads in DAW, does nothing yet
+
+**Duration:** 5 minutes (when implemented in Phase 3)
+
+**NOTE:** Stage 3 is a STUB in Phase 2. shell-agent will be implemented in Phase 3.
+
+**Current Implementation:**
+
+Display stub message in formatted box:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stage 3: Shell (Parameter Setup)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TODO (Phase 3): Dispatch shell-agent subagent
+
+Expected implementation:
+- Create APVTS with all parameters from parameter-spec.md
+- Implement basic processBlock stub
+- Empty editor with placeholder text
+- Verify plugin loads in DAW
+
+For now, marking stage as stub and continuing...
+```
+
+**Update handoff file:**
+
+```yaml
+stage: 3
+status: in_progress
+```
+
+Add to "Completed So Far":
+- **Stage 3 (stub):** Shell stub executed
+
+Add to "Next Steps":
+- Complete Phase 3 to implement shell-agent
+- shell-agent will implement parameters and basic structure
+
+**Update PLUGINS.md:**
+
+Update status: `🚧 Stage 3 (stub)`
+
+**Do NOT create git commit** (stub stages are not committed)
+
+**Decision menu:**
+
+```
+✓ Stage 3 stub executed (Phase 3 will implement)
+
+What's next?
+1. Continue to Stage 4 (stub) (recommended)
+2. Review handoff file
+3. Skip to Stage 6 (test stub workflow)
+4. Pause here
+5. Other
+
+Choose (1-5): _
+```
+
+---
+
+## Stage 4: DSP (STUB - Phase 3)
+
+**Goal:** Audio processing works, parameters functional
+
+**Duration:** 15-45 minutes (when implemented in Phase 3, depending on complexity)
+
+**NOTE:** Stage 4 is a STUB in Phase 2. dsp-agent will be implemented in Phase 3.
+
+**Current Implementation:**
+
+Check if phased implementation is needed:
+
+```typescript
+const plan = readFile(`plugins/${pluginName}/.ideas/plan.md`)
+const phased = plan.includes("Stage 4.1") // Check if phased
+```
+
+Display stub message in formatted box:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stage 4: DSP (Audio Processing)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TODO (Phase 3): Dispatch dsp-agent subagent
+
+Expected implementation:
+- Implement processBlock with DSP algorithms from architecture.md
+- ${phased ? 'Phased execution: Stage 4.1, 4.2, 4.3 with test criteria' : 'Single-pass implementation'}
+- Real audio processing
+- Automated stability tests after completion
+
+For now, marking stage as stub and continuing...
+```
+
+**Update handoff file:**
+
+```yaml
+stage: 4
+status: in_progress
+```
+
+Add to "Completed So Far":
+- **Stage 4 (stub):** DSP stub executed
+
+Add to "Next Steps":
+- Complete Phase 3 to implement dsp-agent
+- dsp-agent will implement audio processing from architecture.md
+
+**Update PLUGINS.md:**
+
+Update status: `🚧 Stage 4 (stub)`
+
+**Do NOT create git commit** (stub stages are not committed)
+
+**Decision menu:**
+
+```
+✓ Stage 4 stub executed (Phase 3 will implement)
+
+What's next?
+1. Continue to Stage 5 (stub) (recommended)
+2. Review handoff file
+3. Skip to Stage 6 (test stub workflow)
+4. Pause here
+5. Other
+
+Choose (1-5): _
+```
+
+---
+
+## Stage 5: GUI (STUB - Phase 3)
+
+**Goal:** Professional UI with working controls
+
+**Duration:** 20-60 minutes (when implemented in Phase 3, depending on complexity)
+
+**NOTE:** Stage 5 is a STUB in Phase 2. gui-agent will be implemented in Phase 3.
+
+**Current Implementation:**
+
+Check if phased implementation is needed:
+
+```typescript
+const plan = readFile(`plugins/${pluginName}/.ideas/plan.md`)
+const phased = plan.includes("Stage 5.1") // Check if phased
+```
+
+Display stub message in formatted box:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stage 5: GUI (User Interface)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TODO (Phase 3): Dispatch gui-agent subagent
+
+Expected implementation:
+- Create WebView UI with parameter bindings
+- ${phased ? 'Phased execution: Stage 5.1, 5.2 with test criteria' : 'Single-pass implementation'}
+- FlexBox/Grid layout (never manual setBounds)
+- Automated stability tests after completion
+
+For now, marking stage as stub and continuing...
+```
+
+**Update handoff file:**
+
+```yaml
+stage: 5
+status: in_progress
+```
+
+Add to "Completed So Far":
+- **Stage 5 (stub):** GUI stub executed
+
+Add to "Next Steps":
+- Complete Phase 3 to implement gui-agent
+- gui-agent will create WebView UI with parameter bindings
+
+**Update PLUGINS.md:**
+
+Update status: `🚧 Stage 5 (stub)`
+
+**Do NOT create git commit** (stub stages are not committed)
+
+**Decision menu:**
+
+```
+✓ Stage 5 stub executed (Phase 3 will implement)
+
+What's next?
+1. Continue to Stage 6 (real implementation) (recommended)
+2. Review handoff file
 3. Pause here
 4. Other
 
 Choose (1-4): _
-```
-
----
-
-## Stage 3: Shell
-
-**Goal:** Plugin loads in DAW, does nothing yet
-
-**Duration:** 5 minutes
-
-**NOTE:** Stage 3 requires shell-agent (Phase 3). Creating placeholder.
-
-**Current Implementation (Manual):**
-
-```
-Stage 3 requires the shell-agent subagent (Phase 3).
-
-For now, I'll create a basic shell manually:
-
-1. Implement basic AudioProcessor methods (prepareToPlay, processBlock, releaseResources)
-2. Create empty APVTS (no parameters yet)
-3. Implement minimal PluginEditor with placeholder text
-4. Build and verify it loads in DAW
-```
-
-Create basic shell manually.
-
-**Git commit:**
-
-```bash
-git add plugins/[PluginName]/Source/
-# Stage but don't commit
-```
-
-**Update .continue-here.md:**
-
-```yaml
-stage: 3
-```
-
-**Update PLUGINS.md:**
-
-```markdown
-**Status:** 🚧 Stage 3
-```
-
-**Decision menu:**
-
-```
-✓ Stage 3 complete: shell loads in DAW (manual)
-
-Note: Stage 3 will use shell-agent in Phase 3 for automated setup.
-
-What's next?
-1. Continue to Stage 4 (recommended)
-2. Review shell code
-3. Test loading in different DAW
-4. Pause here
-5. Other
-
-Choose (1-5): _
-```
-
----
-
-## Stage 4: DSP
-
-**Goal:** Audio processing works, parameters functional
-
-**Duration:** 15-45 minutes (depending on complexity)
-
-**NOTE:** Stage 4 requires dsp-agent (Phase 3). Creating placeholder.
-
-**Current Implementation (Manual):**
-
-```
-Stage 4 requires the dsp-agent subagent (Phase 3).
-
-For now, provide implementation guidance:
-
-Simple plugins (score ≤ 2):
-- Single-pass implementation
-- Read parameter-spec.md for all parameters
-- Read architecture.md for DSP design
-- Implement processBlock with audio processing
-- Create APVTS with all parameters
-- Test with automated tests
-
-Complex plugins (score ≥ 3):
-- Phase-based implementation
-- Each phase has specific goals from plan.md
-- Commit after each phase
-- Update plan.md with completion checkmarks
-- Test after each phase
-```
-
-For now, implement DSP manually or provide detailed guidance.
-
-**Testing:**
-
-After Stage 4 completion, invoke plugin-testing skill (Phase 1b Task 8):
-
-```
-Running automated stability tests...
-```
-
-If tests fail, STOP and present menu:
-
-```
-❌ Tests failed
-
-What would you like to do?
-1. Investigate failures
-2. Show me the test output
-3. I'll fix it manually
-4. Other
-
-Choose (1-4): _
-```
-
-**Git commit:**
-
-Simple:
-
-```bash
-git add plugins/[PluginName]/Source/
-# Message: feat: [Plugin] Stage 4 - DSP
-```
-
-Complex (per phase):
-
-```bash
-git add plugins/[PluginName]/Source/
-git add plugins/[PluginName]/.ideas/plan.md
-# Message: feat: [Plugin] Stage 4.1 - [phase description]
-```
-
-**Update .continue-here.md:**
-
-```yaml
-stage: 4
-phase: [N if complex]
-```
-
-**Update PLUGINS.md:**
-
-```markdown
-**Status:** 🚧 Stage 4
-```
-
-**Decision menu:**
-
-```
-✓ Stage 4 complete: DSP implementation finished
-
-What's next?
-1. Continue to Stage 5 (recommended)
-2. Review DSP code
-3. Test audio processing manually
-4. Pause here
-5. Other
-
-Choose (1-5): _
-```
-
----
-
-## Stage 5: GUI
-
-**Goal:** Professional UI with working controls
-
-**Duration:** 20-60 minutes (depending on complexity)
-
-**NOTE:** Stage 5 requires gui-agent (Phase 3). Creating placeholder.
-
-**Current Implementation (Manual):**
-
-```
-Stage 5 requires the gui-agent subagent (Phase 3).
-
-For now, provide implementation guidance:
-
-Simple plugins (score ≤ 2):
-- Single-pass implementation
-- Read mockup files if they exist (v*-ui.yaml, v*-ui.html)
-- Create FlexBox layout (never manual setBounds)
-- Add rotary sliders, buttons, labels
-- Attach controls to APVTS parameters
-- Apply styling
-
-Complex plugins (score ≥ 3):
-- Phase-based implementation
-- Each phase has specific goals from plan.md
-- Commit after each phase
-- Update plan.md with completion checkmarks
-```
-
-For now, implement GUI manually or provide detailed guidance.
-
-**Testing:**
-
-After Stage 5 completion, invoke plugin-testing skill:
-
-```
-Running automated stability tests...
-```
-
-**Git commit:**
-
-Simple:
-
-```bash
-git add plugins/[PluginName]/Source/
-# Message: feat: [Plugin] Stage 5 - GUI
-```
-
-Complex (per phase):
-
-```bash
-git add plugins/[PluginName]/Source/
-git add plugins/[PluginName]/.ideas/plan.md
-# Message: feat: [Plugin] Stage 5.1 - [phase description]
-```
-
-**Update .continue-here.md:**
-
-```yaml
-stage: 5
-phase: [N if complex]
-```
-
-**Update PLUGINS.md:**
-
-```markdown
-**Status:** 🚧 Stage 5
-```
-
-**Decision menu:**
-
-```
-✓ Stage 5 complete: GUI implementation finished
-
-What's next?
-1. Continue to Stage 6 (recommended)
-2. Review GUI code
-3. Test UI in standalone app (/show-standalone)
-4. Pause here
-5. Other
-
-Choose (1-5): _
 ```
 
 ---
@@ -1242,7 +1200,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Tested in [DAW names]
 ```
 
-4. Update PLUGINS.md:
+4. Invoke validator subagent:
+
+Call validator to verify Stage 6 completion:
+
+```typescript
+const validation = Task({
+  subagent_type: "validator",
+  description: `Validate ${pluginName} Stage 6`,
+  prompt: `
+Validate Stage 6 completion for ${pluginName}.
+
+**Stage:** 6
+**Plugin:** ${pluginName}
+**Contracts:**
+- parameter-spec.md: [paste content or "not applicable"]
+- architecture.md: [paste content or "not applicable"]
+- plan.md: [paste content]
+
+**Expected outputs for Stage 6:**
+- CHANGELOG.md exists in Keep a Changelog format
+- Version 1.0.0 for initial release
+- Presets/ directory has 3+ preset files
+- pluginval passed (or skipped with reason)
+- PLUGINS.md updated to ✅ Working
+
+Return JSON validation report with status, checks, and recommendation.
+  `
+})
+
+const report = JSON.parse(validation)
+
+if (report.status === "FAIL") {
+  // Present validation failure menu
+  presentValidationFailure(report)
+  // Options: Fix issues / Continue anyway / Pause
+  // Wait for user choice before proceeding
+}
+```
+
+5. Update PLUGINS.md:
 
 Call `updatePluginStatus(pluginName, "✅ Working")`.
 
@@ -1261,7 +1258,7 @@ Add final fields to entry:
 
 Add timeline entry: `updatePluginTimeline(pluginName, 6, "Validation complete")`.
 
-5. Delete .continue-here.md:
+6. Delete .continue-here.md:
 
 Call `deleteHandoff(pluginName)`:
 
