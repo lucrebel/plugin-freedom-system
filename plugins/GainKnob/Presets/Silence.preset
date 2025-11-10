@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preset name="Silence">
+  <param id="GAIN" value="-60.0"/>
+</preset>
