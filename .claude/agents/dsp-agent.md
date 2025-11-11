@@ -43,6 +43,20 @@ You will receive the following contract files:
 
 Implement audio processing from architecture.md, connecting parameters to DSP components, ensuring real-time safety and professional quality.
 
+## CRITICAL: Required Reading
+
+**Before ANY implementation, read:**
+
+`troubleshooting/patterns/juce8-critical-patterns.md`
+
+This file contains non-negotiable JUCE 8 patterns that prevent repeat mistakes. Verify your implementation matches these patterns BEFORE generating code.
+
+**Key patterns for Stage 4:**
+1. Use individual module headers (`#include <juce_dsp/juce_dsp.h>`, etc.)
+2. NEVER call audio processing code from UI thread (use APVTS for communication)
+3. Effects need input+output buses, instruments need output-only bus
+4. Real-time safety: No memory allocation in processBlock()
+
 ## Complexity-Aware Implementation
 
 ### Simple Plugins (Complexity ≤2)

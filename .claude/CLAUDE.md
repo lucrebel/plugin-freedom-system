@@ -21,6 +21,7 @@
 2. **Dispatcher pattern** - Each subagent runs in fresh context (no accumulation)
 3. **Discovery through play** - Features found via slash command autocomplete and decision menus
 4. **Instructed routing** - Commands expand to prompts, Claude invokes skills
+5. **Required Reading injection** - Critical patterns (`juce8-critical-patterns.md`) are mandatory reading for all subagents to prevent repeat mistakes
 
 ## Workflow Entry Points
 - New plugin: `/dream` → `/implement`
@@ -52,7 +53,8 @@
 - `/uninstall [Name]` - Remove from system folders
 - `/sync-design [Name]` - Validate design alignment (mockup ↔ brief)
 - `/research [topic]` - Deep investigation (3-level protocol)
-- `/doc-fix` - Document solved problems
+- `/doc-fix` - Document solved problems (with option to promote to Required Reading)
+- `/add-critical-pattern` - Directly add current problem to Required Reading (fast path)
 - `/improve [Name]` - Fix bugs or add features (enhanced with regression testing)
 
 ### Knowledge Base
@@ -64,6 +66,7 @@
 - `troubleshooting/parameter-issues/` - APVTS and state management
 - `troubleshooting/validation-problems/` - pluginval failures
 - `troubleshooting/patterns/` - Common patterns and solutions
+- `troubleshooting/patterns/juce8-critical-patterns.md` - **REQUIRED READING** for all subagents (Stages 2-5)
 
 ### Scripts
 - `scripts/build-and-install.sh` - Build automation (supports --uninstall)

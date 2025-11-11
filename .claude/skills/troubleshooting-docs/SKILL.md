@@ -265,7 +265,7 @@ Use template from `assets/resolution-template.md` with populated values:
 - Related issues (cross-references if found in Step 3)
 - References (JUCE docs, forum threads, external resources)
 
-### Step 7: Cross-Reference
+### Step 7: Cross-Reference & Critical Pattern Detection
 
 If similar issues found in Step 3:
 
@@ -300,6 +300,46 @@ cat >> troubleshooting/patterns/common-solutions.md << 'EOF'
 EOF
 ```
 
+**Critical Pattern Detection (Optional Proactive Suggestion):**
+
+If this issue has automatic indicators suggesting it might be critical:
+- Severity: `critical` in YAML
+- Affects multiple plugins OR foundational stage (Stage 2 or 3)
+- Non-obvious solution
+
+Then in the decision menu (Step 8), add a note:
+```
+💡 This might be worth adding to Required Reading (Option 2)
+```
+
+But **NEVER auto-promote**. User decides via decision menu (Option 2).
+
+**Template for critical pattern addition:**
+
+When user selects Option 2 (Add to Required Reading):
+
+```markdown
+## N. [Pattern Name] (ALWAYS REQUIRED)
+
+### ❌ WRONG ([Will cause X error])
+```[language]
+[code showing wrong approach]
+```
+
+### ✅ CORRECT
+```[language]
+[code showing correct approach]
+```
+
+**Why:** [Technical explanation of why this is required]
+
+**Placement/Context:** [When this applies]
+
+**Documented in:** `troubleshooting/[category]/[filename].md`
+
+---
+```
+
 ---
 
 ## Decision Menu After Capture
@@ -315,10 +355,11 @@ File created:
 
 What's next?
 1. Continue workflow (recommended)
-2. Link related issues - Connect to similar problems
-3. Update common patterns - Add to pattern library
-4. View documentation - See what was captured
-5. Other
+2. Add to Required Reading - Promote to critical patterns (juce8-critical-patterns.md)
+3. Link related issues - Connect to similar problems
+4. Update common patterns - Add to pattern library
+5. View documentation - See what was captured
+6. Other
 ```
 
 **Handle responses:**
@@ -328,25 +369,39 @@ What's next?
 - Return to calling skill/workflow
 - Documentation is complete
 
-**Option 2: Link related issues**
+**Option 2: Add to Required Reading** ⭐ PRIMARY PATH FOR CRITICAL PATTERNS
+
+User selects this when:
+- System made this mistake multiple times across different plugins
+- Solution is non-obvious but must be followed every time
+- Foundational requirement (CMake, JUCE API, threading, etc.)
+
+Action:
+1. Extract pattern from the documentation
+2. Format as ❌ WRONG vs ✅ CORRECT with code examples
+3. Add to `troubleshooting/patterns/juce8-critical-patterns.md`
+4. Add cross-reference back to this doc
+5. Confirm: "✓ Added to Required Reading. All subagents will see this pattern before code generation."
+
+**Option 3: Link related issues**
 
 - Prompt: "Which doc to link? (provide filename or describe)"
 - Search troubleshooting/ for the doc
 - Add cross-reference to both docs
 - Confirm: "✓ Cross-reference added"
 
-**Option 3: Update common patterns**
+**Option 4: Update common patterns**
 
 - Check if 3+ similar issues exist
 - If yes: Add pattern to troubleshooting/patterns/common-solutions.md
 - If no: "Need 3+ similar issues to establish pattern (currently N)"
 
-**Option 4: View documentation**
+**Option 5: View documentation**
 
 - Display the created documentation
 - Present decision menu again
 
-**Option 5: Other**
+**Option 6: Other**
 
 - Ask what they'd like to do
 

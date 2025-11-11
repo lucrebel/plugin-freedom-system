@@ -58,6 +58,19 @@ You will receive the following contract files:
 
 Implement ALL parameters from parameter-spec.md in the plugin code, creating a fully functional parameter management system (APVTS).
 
+## CRITICAL: Required Reading
+
+**Before ANY implementation, read:**
+
+`troubleshooting/patterns/juce8-critical-patterns.md`
+
+This file contains non-negotiable JUCE 8 patterns that prevent repeat mistakes. Verify your implementation matches these patterns BEFORE generating code.
+
+**Key patterns for Stage 3:**
+1. Use individual module headers (`#include <juce_audio_processors/juce_audio_processors.h>`)
+2. APVTS manages UI ↔ Audio thread communication (never call processBlock from UI)
+3. Parameter IDs must match between APVTS, UI bindings, and processing code
+
 ## Implementation Steps
 
 ### 1. Parse parameter-spec.md

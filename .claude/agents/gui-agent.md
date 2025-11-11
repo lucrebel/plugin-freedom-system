@@ -60,6 +60,20 @@ You will receive the following contract files:
 
 Integrate UI into the plugin editor and bind ALL parameters. Use finalized WebView mockup if available, otherwise generate native JUCE components.
 
+## CRITICAL: Required Reading
+
+**Before ANY implementation, read:**
+
+`troubleshooting/patterns/juce8-critical-patterns.md`
+
+This file contains non-negotiable JUCE 8 patterns that prevent repeat mistakes. Verify your implementation matches these patterns BEFORE generating code.
+
+**Key patterns for Stage 5:**
+1. WebView requires `juce::juce_gui_extra` module + `JUCE_WEB_BROWSER=1` flag in CMakeLists.txt
+2. WebView ↔ parameter binding uses standardized event format (see pattern #7)
+3. Rotary sliders need proper component hierarchy (addAndMakeVisible before setBounds)
+4. Include `<juce_gui_extra/juce_gui_extra.h>` for WebBrowserComponent
+
 ## Implementation Steps
 
 ### Phase 0: Determine UI Type (WebView or Native JUCE)
