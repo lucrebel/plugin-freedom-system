@@ -88,21 +88,23 @@ void GainKnobAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
 
         if (filterPercent < 0.0f) {
             // Low-pass filter (negative values)
-            // Map -100% to -1% → 20kHz to 200Hz
+            // Exponential mapping: -100% = 200Hz, -50% = ~1.4kHz, 0% = 20kHz
+            // Formula: cutoff = 20kHz * 10^((value/100) * log10(200/20000))
             float normalizedValue = (filterPercent + 100.0f) / 100.0f; // 0.0 to 0.99
-            float cutoffHz = 200.0f + normalizedValue * (20000.0f - 200.0f);
+            float cutoffHz = 20000.0f * std::pow(10.0f, normalizedValue * std::log10(200.0f / 20000.0f));
 
             *filterProcessor.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
-                sampleRate, cutoffHz, 0.707f // Q = 0.707 for Butterworth response
+                sampleRate, juce::jlimit(200.0f, 20000.0f, cutoffHz), 0.707f
             );
         } else {
             // High-pass filter (positive values)
-            // Map 1% to 100% → 200Hz to 20kHz
+            // Exponential mapping: 0% = 20Hz, +50% = ~1kHz, +100% = 10kHz
+            // Formula: cutoff = 20Hz * 10^((value/100) * log10(10000/20))
             float normalizedValue = filterPercent / 100.0f; // 0.01 to 1.0
-            float cutoffHz = 200.0f + normalizedValue * (20000.0f - 200.0f);
+            float cutoffHz = 20.0f * std::pow(10.0f, normalizedValue * std::log10(10000.0f / 20.0f));
 
             *filterProcessor.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(
-                sampleRate, cutoffHz, 0.707f // Q = 0.707 for Butterworth response
+                sampleRate, juce::jlimit(20.0f, 10000.0f, cutoffHz), 0.707f
             );
         }
 

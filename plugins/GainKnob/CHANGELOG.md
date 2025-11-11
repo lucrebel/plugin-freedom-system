@@ -5,6 +5,19 @@ All notable changes to GainKnob will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-11-10
+
+### Fixed
+- Filter cutoff frequency mapping now uses exponential curve for musical sweep
+- Low-pass: -100% = 200Hz, -50% = ~1.4kHz, 0% = 20kHz (was linear)
+- High-pass: 0% = 20Hz, +50% = ~1kHz, +100% = 10kHz (was linear)
+- Middle knob positions now provide useful filtering instead of extreme values only
+
+### Technical Details
+- Changed from linear (200Hz-20kHz) to logarithmic frequency mapping
+- Formula: `cutoff = base * 10^(normalized * log10(range))`
+- Added safety limits via juce::jlimit for cutoff boundaries
+
 ## [1.2.0] - 2025-11-10
 
 ### Added
