@@ -5,6 +5,7 @@ description: |
   to verify quality, design decisions, and best practices.
   Invoke for complexity 4+ or when thorough review needed.
 extended_thinking: false
+model: claude-opus-4-1-20250805
 allowed-tools:
   - Read # Read source files and contracts
   - Grep # Search for patterns

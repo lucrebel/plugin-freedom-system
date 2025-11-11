@@ -1,6 +1,7 @@
 ---
 name: deep-research
 description: Multi-agent parallel investigation for complex JUCE problems
+model: claude-opus-4-1-20250805
 allowed-tools:
   - Read # Local troubleshooting docs
   - Grep # Search docs

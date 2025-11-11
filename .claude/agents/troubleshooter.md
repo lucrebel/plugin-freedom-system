@@ -2,6 +2,7 @@
 name: troubleshooter
 type: agent
 description: Deep research agent for build failures and JUCE problems
+model: claude-opus-4-1-20250805
 allowed-tools:
   - Read # Read source files and logs
   - Grep # Search for error patterns
@@ -639,6 +640,7 @@ I need to investigate this more deeply. Invoking deep-research skill...
 ```
 
 **deep-research handles:**
+
 - Graduated 3-level protocol (Quick / Moderate / Deep)
 - Parallel subagent investigation (Level 3)
 - Extended thinking synthesis (Opus model, 15k budget)
@@ -647,6 +649,7 @@ I need to investigate this more deeply. Invoking deep-research skill...
 - Implementation roadmap generation
 
 **Returns:**
+
 - Structured report with multiple solutions
 - Pros/cons for each approach
 - Recommended solution with rationale
@@ -680,6 +683,7 @@ Confidence: HIGH (comprehensive investigation)
 **Decision:**
 
 After deep-research returns, present findings to user with decision menu:
+
 ```
 ✓ Deep research complete (Level 4)
 
