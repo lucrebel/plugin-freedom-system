@@ -67,6 +67,17 @@ void TapeAgeAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock
     // Initialize random phase offsets per channel for stereo width
     lfoPhase[0] = random.nextFloat() * juce::MathConstants<float>::twoPi;
     lfoPhase[1] = random.nextFloat() * juce::MathConstants<float>::twoPi;
+
+    // Phase 4.3: Prepare degradation features
+    // Initialize dropout state (no dropout at start)
+    dropoutCountdown = static_cast<int>(sampleRate * 0.1);  // 100ms until first check
+    inDropout = false;
+    dropoutSamplesRemaining = 0;
+    dropoutEnvelope = 1.0f;
+
+    // Initialize noise filter state to zero
+    noiseFilterState[0] = 0.0f;
+    noiseFilterState[1] = 0.0f;
 }
 
 void TapeAgeAudioProcessor::releaseResources()
@@ -185,6 +196,126 @@ void TapeAgeAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
             lfoPhase[channel] += lfoPhaseIncrement;
             if (lfoPhase[channel] >= juce::MathConstants<float>::twoPi)
                 lfoPhase[channel] -= juce::MathConstants<float>::twoPi;
+        }
+    }
+
+    // Phase 4.3: Degradation Features (Dropout + Noise)
+    // Processing chain: Apply dropout and tape noise after wow/flutter modulation
+
+    // === Dropout Generator ===
+    // Check every 100ms if dropout should occur (architecture.md line 116)
+    dropoutCountdown -= numSamples;
+    if (dropoutCountdown <= 0)
+    {
+        dropoutCountdown = static_cast<int>(currentSampleRate * 0.1);  // Reset to 100ms
+
+        // Probability scaled by age (architecture.md line 38: rare events every 5-10 seconds at max age)
+        // At age=1.0, probability = 0.02 (2% per 100ms check = ~20% per second = 5-10 second intervals)
+        float dropoutProbability = age * 0.02f;
+
+        if (random.nextFloat() < dropoutProbability && !inDropout)
+        {
+            // Start dropout event
+            inDropout = true;
+            // Random duration: 50-150ms (architecture.md line 39)
+            float dropoutDurationMs = 50.0f + random.nextFloat() * 100.0f;
+            dropoutSamplesRemaining = static_cast<int>(currentSampleRate * dropoutDurationMs / 1000.0f);
+        }
+    }
+
+    // Process dropout envelope (smooth attack/release to avoid clicks)
+    if (inDropout && dropoutSamplesRemaining > 0)
+    {
+        // Random attenuation factor 0.1-0.3 (70-90% reduction) (architecture.md line 40)
+        const float dropoutTargetGain = 0.1f + random.nextFloat() * 0.2f;
+
+        // Envelope attack/release time: 5-10ms (architecture.md line 118)
+        const float envelopeTimeMs = 7.5f;  // Mid-range
+        const float envelopeTimeSamples = currentSampleRate * envelopeTimeMs / 1000.0f;
+        const float envelopeIncrement = 1.0f / envelopeTimeSamples;
+
+        for (int sample = 0; sample < numSamples && dropoutSamplesRemaining > 0; ++sample)
+        {
+            // Attack: Fade down to dropout gain
+            if (dropoutEnvelope > dropoutTargetGain)
+            {
+                dropoutEnvelope -= envelopeIncrement;
+                if (dropoutEnvelope < dropoutTargetGain)
+                    dropoutEnvelope = dropoutTargetGain;
+            }
+
+            // Apply dropout attenuation to all channels (stereo coherence)
+            for (int channel = 0; channel < numChannels; ++channel)
+            {
+                auto* channelData = buffer.getWritePointer(channel);
+                channelData[sample] *= dropoutEnvelope;
+            }
+
+            dropoutSamplesRemaining--;
+        }
+
+        if (dropoutSamplesRemaining <= 0)
+        {
+            // End dropout, start release
+            inDropout = false;
+        }
+    }
+    else if (dropoutEnvelope < 1.0f)
+    {
+        // Release: Fade back to full gain
+        const float envelopeTimeMs = 7.5f;
+        const float envelopeTimeSamples = currentSampleRate * envelopeTimeMs / 1000.0f;
+        const float envelopeIncrement = 1.0f / envelopeTimeSamples;
+
+        for (int sample = 0; sample < numSamples; ++sample)
+        {
+            dropoutEnvelope += envelopeIncrement;
+            if (dropoutEnvelope >= 1.0f)
+            {
+                dropoutEnvelope = 1.0f;
+                break;
+            }
+
+            // Apply release envelope to all channels
+            for (int channel = 0; channel < numChannels; ++channel)
+            {
+                auto* channelData = buffer.getWritePointer(channel);
+                channelData[sample] *= dropoutEnvelope;
+            }
+        }
+    }
+
+    // === Tape Noise Generator ===
+    // Filtered white noise at VERY subtle amplitude (architecture.md line 124-129)
+    // Noise amplitude scaled by age: 0% = silent, 100% = -80dB to -60dB
+
+    // Calculate noise gain based on age (VERY subtle)
+    // age = 0.0 → noiseGain = 0.0 (silent)
+    // age = 1.0 → noiseGain = 0.0001 to 0.001 (-80dB to -60dB)
+    float noiseGain = age * 0.0001f;  // Maximum -80dB at full age (VERY subtle)
+
+    if (noiseGain > 0.0f)
+    {
+        // One-pole lowpass filter coefficient for ~8kHz cutoff (architecture.md line 125)
+        // Formula: coeff = 1 - exp(-2π * cutoffFreq / sampleRate)
+        const float cutoffFreq = 8000.0f;
+        const float filterCoeff = 1.0f - std::exp(-juce::MathConstants<float>::twoPi * cutoffFreq / static_cast<float>(currentSampleRate));
+
+        for (int channel = 0; channel < numChannels; ++channel)
+        {
+            auto* channelData = buffer.getWritePointer(channel);
+
+            for (int sample = 0; sample < numSamples; ++sample)
+            {
+                // Generate white noise: range [-1.0, 1.0]
+                float whiteNoise = random.nextFloat() * 2.0f - 1.0f;
+
+                // Apply one-pole lowpass filter (simulates tape frequency response)
+                noiseFilterState[channel] += filterCoeff * (whiteNoise - noiseFilterState[channel]);
+
+                // Add filtered noise at very low amplitude
+                channelData[sample] += noiseFilterState[channel] * noiseGain;
+            }
         }
     }
 }

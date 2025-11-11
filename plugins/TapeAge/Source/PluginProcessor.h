@@ -43,6 +43,13 @@ private:
     juce::Random random;
     double currentSampleRate { 44100.0 };
 
+    // Phase 4.3: Degradation Features (Dropout + Noise)
+    int dropoutCountdown { 0 };  // Samples until next dropout check
+    bool inDropout { false };  // Dropout state flag
+    int dropoutSamplesRemaining { 0 };  // Current dropout duration
+    float dropoutEnvelope { 1.0f };  // Smooth attack/release (1.0 = no attenuation)
+    float noiseFilterState[2] { 0.0f, 0.0f };  // One-pole lowpass filter state per channel
+
     // APVTS comes AFTER DSP components
     juce::AudioProcessorValueTreeState parameters;
 
