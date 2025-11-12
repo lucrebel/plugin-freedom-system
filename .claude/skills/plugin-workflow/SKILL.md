@@ -40,8 +40,10 @@ This skill orchestrates plugin implementation stages 2-6. Stages 0-1 (Research &
    - WAIT for user response
 
    This applies to:
-   - Simple plugins: After stages 2, 3, 4, 5, 6
-   - Complex plugins: After stages 2, 3 AND after each phase (4.1, 4.2, 4.3, 5.1, 5.2), then 6
+   - Simple plugins (complexity ≤2): After each stage completion (2, 3, 4, 5, 6)
+   - Complex plugins (complexity ≥3): After stages 2, 3 AND after EACH DSP/GUI phase (4.1, 4.2, 4.3+, 5.1, 5.2, 5.3+), then 6
+
+   Note: Number of phases determined by plan.md - could be 4.1-4.2, or 4.1-4.3, or more depending on complexity
 
 3. Stage 6 can run directly in orchestrator or via validator subagent
 4. All subagents receive Required Reading (juce8-critical-patterns.md) to prevent repeat mistakes
