@@ -4,6 +4,18 @@ All notable changes to DriveVerb will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.1] - 2025-11-12
+
+### Changed
+
+- **UI Control Order:** Reordered controls for improved mixing workflow
+  - New order: Size → Decay → Drive → Filter Pre/Post → Filter → Dry/Wet
+  - Previous order: Size → Decay → Dry/Wet → Drive → Filter Pre/Post → Filter
+  - **Rationale:** Standard mixing convention places output blend (dry/wet) at the end of signal chain
+  - **User Impact:** More intuitive left-to-right workflow matching signal flow
+  - **Technical Details:** HTML reordering only, no JavaScript changes (parameter bindings use IDs)
+  - **Backward Compatibility:** Zero impact—no parameter changes, existing presets/sessions unaffected
+
 ## [1.0.0] - 2025-11-12
 
 ### Added
