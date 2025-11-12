@@ -33,6 +33,9 @@ public:
     // Public APVTS member (required for WebView parameter bindings)
     juce::AudioProcessorValueTreeState parameters;
 
+    // Phase 5.3: Output level for VU meter
+    std::atomic<float> outputLevel { 0.0f };
+
 private:
     // DSP Components (declare BEFORE parameters for initialization order)
     juce::dsp::Reverb reverb;

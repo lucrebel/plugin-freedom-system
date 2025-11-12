@@ -311,6 +311,15 @@ void LushVerbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
 
     // Mix dry and wet signals
     dryWetMixer.mixWetSamples(block);
+
+    // Phase 5.3: Calculate peak output level for VU meter
+    float peakLevel = 0.0f;
+    for (int channel = 0; channel < numChannels; ++channel)
+    {
+        const float channelPeak = buffer.getMagnitude(channel, 0, numSamples);
+        peakLevel = std::max(peakLevel, channelPeak);
+    }
+    outputLevel.store(peakLevel, std::memory_order_relaxed);
 }
 
 juce::AudioProcessorEditor* LushVerbAudioProcessor::createEditor()

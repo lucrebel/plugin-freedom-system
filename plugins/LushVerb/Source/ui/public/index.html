@@ -437,17 +437,32 @@
             });
         });
 
-        // VU meter animation (placeholder - driven by C++ in production)
-        let meterLevel = -20; // dB
-        function updateMeter() {
-            // In production, this would be driven by C++ sending level data
-            // For now, simulate movement
-            meterLevel += (Math.random() - 0.5) * 8;
-            meterLevel = Math.max(-60, Math.min(0, meterLevel));
+        // Phase 5.3: VU Meter Animation with Ballistic Motion (PATTERN #20)
+        // Separate current (visual) from target (audio data)
+        let currentMeterLevel = -60;  // Visual state (dB) - smooth
+        let targetMeterLevel = -60;   // Audio data (dB) - from C++
 
-            const normalizedLevel = (meterLevel + 60) / 60; // 0 to 1
-            const activeLeds = Math.floor(normalizedLevel * ledCount);
+        const ATTACK_SPEED = 0.4;   // Fast rise (40% per frame)
+        const DECAY_SPEED = 0.15;   // Slow fall (15% per frame)
 
+        // C++ calls this to update target (NOT visual)
+        // CRITICAL: This function MUST be in global scope for evaluateJavascript()
+        window.updateMeterLevel = function(dbLevel) {
+            targetMeterLevel = dbLevel;
+        };
+
+        // Render meter visual from current level
+        function renderMeter(dbLevel) {
+            // Clamp to range
+            const clampedDB = Math.max(-60, Math.min(0, dbLevel));
+
+            // Normalize to 0-1
+            const normalized = (clampedDB + 60) / 60;
+
+            // Scale to 20 LEDs
+            const activeLeds = Math.floor(normalized * ledCount);
+
+            // Update each LED
             document.querySelectorAll('.led').forEach((led, i) => {
                 if (i < activeLeds) {
                     led.classList.add('active', led.dataset.color);
@@ -455,10 +470,22 @@
                     led.classList.remove('active', 'green', 'yellow', 'red');
                 }
             });
-
-            requestAnimationFrame(updateMeter);
         }
-        updateMeter();
+
+        // Animation loop: interpolate current → target with ballistic motion
+        function animateMeter() {
+            // Ballistic motion: fast attack, slow decay
+            const speed = currentMeterLevel < targetMeterLevel ? ATTACK_SPEED : DECAY_SPEED;
+            currentMeterLevel += (targetMeterLevel - currentMeterLevel) * speed;
+
+            // Update visual
+            renderMeter(currentMeterLevel);
+
+            requestAnimationFrame(animateMeter);
+        }
+
+        // Start animation loop once
+        animateMeter();
 
         console.log('LushVerb UI loaded - Parameter bindings active');
     </script>

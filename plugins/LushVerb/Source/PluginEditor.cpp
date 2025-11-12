@@ -59,10 +59,15 @@ LushVerbAudioProcessorEditor::LushVerbAudioProcessorEditor(LushVerbAudioProcesso
 
     // Navigate to index
     webView->goToURL(juce::WebBrowserComponent::getResourceProviderRoot());
+
+    // Phase 5.3: Start timer for VU meter updates (60 Hz = ~16ms interval)
+    startTimerHz(60);
 }
 
 LushVerbAudioProcessorEditor::~LushVerbAudioProcessorEditor()
 {
+    // Stop timer before destruction
+    stopTimer();
     // Destruction happens in reverse order of member declaration (automatic)
 }
 
@@ -116,4 +121,21 @@ LushVerbAudioProcessorEditor::getResource(const juce::String& url)
     // Resource not found
     juce::Logger::writeToLog("Resource not found: " + url);
     return std::nullopt;
+}
+
+// Phase 5.3: Timer callback for VU meter updates
+void LushVerbAudioProcessorEditor::timerCallback()
+{
+    // Read current output level from processor (atomic, thread-safe)
+    const float level = audioProcessor.outputLevel.load(std::memory_order_relaxed);
+
+    // Convert linear gain to dB (-60dB floor)
+    const float dbLevel = juce::Decibels::gainToDecibels(level, -60.0f);
+
+    // Send to JavaScript via evaluateJavascript()
+    // Pattern #20: JavaScript will interpolate current → target with ballistic motion
+    if (webView)
+    {
+        webView->evaluateJavascript("updateMeterLevel(" + juce::String(dbLevel) + ")");
+    }
 }

@@ -13,7 +13,8 @@
  * CRITICAL: Member order follows Pattern #11
  * Order: relays → webView → attachments
  */
-class LushVerbAudioProcessorEditor : public juce::AudioProcessorEditor
+class LushVerbAudioProcessorEditor : public juce::AudioProcessorEditor,
+                                      private juce::Timer
 {
 public:
     explicit LushVerbAudioProcessorEditor(LushVerbAudioProcessor&);
@@ -28,6 +29,9 @@ private:
 
     // Helper for resource serving (Pattern #8)
     std::optional<juce::WebBrowserComponent::Resource> getResource(const juce::String& url);
+
+    // Phase 5.3: Timer callback for VU meter updates
+    void timerCallback() override;
 
     // ⚠️ CRITICAL: Member order matters for release builds
     // Order: relays → webView → attachments
