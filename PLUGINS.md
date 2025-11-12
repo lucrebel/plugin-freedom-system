@@ -313,9 +313,10 @@ Tape-driven plate reverb with extreme wow and flutter modulation for textured, a
 
 ### LushVerb
 
-**Status:** 🚧 **Stage 0**
+**Status:** 🚧 **Stage 1**
 **Created:** 2025-11-11
 **Type:** Audio Effect (Reverb)
+**Complexity:** 5.0 (maximum - phased implementation)
 
 **Description:**
 Stunning, lush algorithmic reverb inspired by Strymon BigSky. Four simple controls deliver consistently gorgeous ambient/ethereal reverb with infinite tails, built-in modulation, and subtle shimmer.
@@ -344,6 +345,7 @@ Stunning, lush algorithmic reverb inspired by Strymon BigSky. Four simple contro
 - **2025-11-11:** Creative brief completed
 - **2025-11-11:** UI mockup v3 finalized
 - **2025-11-11 (Stage 0):** Research completed - DSP architecture documented
+- **2025-11-11 (Stage 1):** Planning - Complexity 5.0 (phased implementation)
 
 **Known Issues:**
 - None
